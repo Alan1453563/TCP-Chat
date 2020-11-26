@@ -12,7 +12,7 @@ server.bind((SERVER, PORT))
 server.listen()
 print('Server listening on', SERVER, PORT)
 
-WORDS = ['fuck', 'shit', 'nigger']
+WORDS = ['fuck', 'shit']
 
 AdminsNicknames = ['Admin','Alan','Brian','Ferny']
 
