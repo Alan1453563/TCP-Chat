@@ -1,5 +1,6 @@
 import threading
 import socket
+import sys
 
 SERVER = '192.168.0.7'
 PORT = 5049
@@ -183,6 +184,14 @@ def bad_word(message):
         if w in message:
             return True
     return False
+
+def shutdown():
+    
+    for client in clients:
+        client.close()
+    nicknames = []    
+    
+    sys.exit(0)
 
 def server_commands():
     pass
