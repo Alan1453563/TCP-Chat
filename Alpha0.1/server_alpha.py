@@ -25,9 +25,10 @@ BANS = []
 
 def broadcast(message, c=''):
     msg = message.decode(FORMAT)
-    if bad_word(msg):
+    bad, msg = bad_word(msg)
+    if bad:
         print(f'ERROR: {msg} IS A BAD WORD')
-        return
+        message = msg
     for client in clients:
         client.send(message)
 
@@ -188,7 +189,6 @@ Sensors the bad word with '*', and returns that as a string
 def bad_word(message):
     bad = False
     bad_index = 0
-    
     
     for w in range(len(WORDS)):
         if WORDS[w] in message:
