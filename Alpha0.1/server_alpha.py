@@ -24,7 +24,7 @@ BANS = []
 
 def broadcast(message, c=''):
     msg = message.decode(FORMAT)
-    if msg in WORDS:
+    if bad_word(msg):
         print(f'ERROR: {msg} IS A BAD WORD')
         return
     for client in clients:
@@ -173,5 +173,11 @@ def ban(ban_client, name):
 
 def unban(name):
     BANS.remove(name)
+
+def bad_word(message):
+    for w in WORDS:
+        if w in message:
+            return True
+    return False
 
 receive()
