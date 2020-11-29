@@ -112,6 +112,7 @@ def handle_server():
     while True:
         message = input('')
         if 'STOP' in message:
+            print('Wegot here before method')
             shutdown()
             
         message = 'SERVER: '+ message
@@ -179,21 +180,40 @@ def ban(ban_client, name):
 def unban(name):
     BANS.remove(name)
 
+'''
+Sensors the bad word with '*', and returns that as a string
+    EX.
+        fuck you --> **** you
+'''
 def bad_word(message):
-    for w in WORDS:
-        if w in message:
-            return True
-    return False
+    bad = False
+    bad_index = 0
+    
+    
+    for w in range(len(WORDS)):
+        if WORDS[w] in message:
+            bad = True
+            
+            L = message.strip()
+            msg_bad = L.index(WORDS[w])
+            
+            censored = len(L[msg_bad])*'*'
+            
+            L[msg_bad] = censored
+            message = ''.join(L)
+            
+            return True, message
+            # word word word
+    
+    return False, message
 
 def shutdown():
-    
+    print('Closing clients')
     for client in clients:
         client.close()
     nicknames = []    
     
     sys.exit(0)
 
-def server_commands():
-    pass
 
 receive()
