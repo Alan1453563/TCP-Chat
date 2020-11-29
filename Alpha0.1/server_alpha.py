@@ -112,7 +112,7 @@ def handle_server():
     while True:
         message = input('')
         if 'STOP' in message:
-            exit()
+            shutdown()
             
         message = 'SERVER: '+ message
         broadcast(message.encode(FORMAT))
