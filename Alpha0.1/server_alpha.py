@@ -110,6 +110,10 @@ def handle(client):
 def handle_server():
     while True:
         message = input('')
+        if 'STOP' in message:
+            exit()
+            
+        message = 'SERVER: '+ message
         broadcast(message.encode(FORMAT))
         
 def receive():
@@ -179,5 +183,8 @@ def bad_word(message):
         if w in message:
             return True
     return False
+
+def server_commands():
+    pass
 
 receive()
