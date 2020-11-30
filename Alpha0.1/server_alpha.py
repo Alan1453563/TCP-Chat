@@ -27,7 +27,7 @@ def broadcast(message, c=''):
     msg = message.decode(FORMAT)
     bad, msg = bad_word(msg)
     if bad:
-        print(f'ERROR: {msg} IS A BAD WORD')
+        print(f'ERROR: {msg} CONTAINS A BAD WORD')
         message = msg
     for client in clients:
         client.send(message)
@@ -186,26 +186,20 @@ Sensors the bad word with '*', and returns that as a string
     EX.
         fuck you --> **** you
 '''
-def bad_word(message):
-    bad = False
-    bad_index = 0
-    
+def bad_word(message): 
     for w in range(len(WORDS)):
         if WORDS[w] in message:
-            #bad = True
             
-            L = list(message.strip(' '))
-            print(L)
+            L = list(message.split(' '))
             msg_bad = L.index(WORDS[w])
             
             censored = len(L[msg_bad])*'*'
-            print(msg_bad)
+
             L.remove(L[msg_bad])
-            L.insert(msg_bad-1, censored)
-            message = ''.join(L)
+            L.insert(msg_bad, censored)
+            message = ' '.join(L)
             
             return True, message
-            # word word word
     
     return False, message
 
