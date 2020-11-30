@@ -192,13 +192,14 @@ def bad_word(message):
     
     for w in range(len(WORDS)):
         if WORDS[w] in message:
-            bad = True
+            #bad = True
             
             L = message.strip()
+            print(L)
             msg_bad = L.index(WORDS[w])
             
             censored = len(L[msg_bad])*'*'
-            
+            print(msg_bad)
             L[msg_bad] = censored
             message = ''.join(L)
             
