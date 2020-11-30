@@ -200,7 +200,8 @@ def bad_word(message):
             
             censored = len(L[msg_bad])*'*'
             print(msg_bad)
-            L[msg_bad] = censored
+            L.remove(L[msg_bad])
+            L.insert(msg_bad-1, censored)
             message = ''.join(L)
             
             return True, message
