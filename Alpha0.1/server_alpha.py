@@ -194,7 +194,7 @@ def bad_word(message):
         if WORDS[w] in message:
             #bad = True
             
-            L = message.strip()
+            L = list(message.strip(' '))
             print(L)
             msg_bad = L.index(WORDS[w])
             
