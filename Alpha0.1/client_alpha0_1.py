@@ -2,7 +2,7 @@ import socket
 import threading
 import sys
 
-SERVER = '72.178.24.130'
+SERVER = '192.168.0.5'
 PORT = 5049
 FORMAT = 'utf-8'
 

@@ -8,6 +8,7 @@ FORMAT = 'utf-8'
 SIZE = 4096
 
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 server.bind((SERVER, PORT))
 
 server.listen()
@@ -28,10 +29,11 @@ def broadcast(message, c=''):
     bad, msg = bad_word(msg)
     if bad:
         print(f'ERROR: {msg} CONTAINS A BAD WORD')
-        message = msg
+        message = msg.encode(FORMAT)
     for client in clients:
         client.send(message)
 
+#CLEAN UP
 def handle(client):
     while True:
         try:
