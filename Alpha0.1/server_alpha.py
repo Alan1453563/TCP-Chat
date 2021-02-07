@@ -2,6 +2,9 @@ import threading
 import socket
 import sys
 
+from user import Client
+from commands import Command
+
 SERVER = '192.168.0.7'
 PORT = 5049
 FORMAT = 'utf-8'
@@ -14,7 +17,7 @@ server.bind((SERVER, PORT))
 server.listen()
 print('Server listening on', SERVER, PORT)
 
-WORDS = ['fuck', 'shit']
+WORDS = ['oof']
 
 AdminsNicknames = ['Admin','Alan','Brian','Ferny']
 
@@ -22,8 +25,13 @@ admins = []
 clients = []
 nicknames = []
 
+users = []
+
 BANS = []
 
+'''
+Sends a message by passing a String(message)
+'''
 def broadcast(message, c=''):
     msg = message.decode(FORMAT)
     bad, msg = bad_word(msg)
@@ -39,68 +47,14 @@ def handle(client):
         try:
             message = client.recv(SIZE)
             message = message.decode(FORMAT)
+            if message[0] == '/':
+                Command()
+            
             message = nicknames[clients.index(client)] +': ' + message
             broadcast(message.encode(FORMAT))
            
             print(message)
-            if '/quit' in message:
-                nick_index = clients.index(client)
-                del admins[nick_index]
-                clients.remove(client)
-                client.close()
-                nickname = nicknames[nick_index]
-                print(f'User {nickname} has left.')
-                broadcast(f'{nickname} left the chat'.encode(FORMAT))
-                nicknames.remove(nickname)
-                break
-            
-            i = clients.index(client)
-            if admins[i] and '/' in message:
-                try:
-                    exc = message.index('/')
-                    print('ADMIN USING COMMAND')
-                    if message[exc] == '/':
-                        print('VALID COMMAND IDENTIFIER')
-
-                        white_index = message.index(' ')
-                        user = message[white_index+1:]
-                        
-                        white_user = user.index(' ')
-                        user = user[white_user+1:]
-
-                        if 'kick' in message:
-                            print('KICK COMMAND')
-                            print(user)
-                            
-                            if user in nicknames:
-                                kick(client, user)
-                            else:
-                                client.send(f'User {user} not found.'.encode(FORMAT))
-
-                        elif 'unban' in message:
-                            print(f'UNBANNING USER {user}')
-
-                            if user in BANS:
-                                unban(user)
-                            else:
-                                client.send(f'User {user} not found'.encode(FORMAT))
-
-
-                        elif 'ban' in message:
-                            print('BAN COMMAND')
-                            j = nicknames.index(user)
-                            ban_client = clients[j]
-                            if ban_client in clients:
-                                ban(ban_client, nicknames[j])
-                            else:
-                                client.send(f'User {user} not found.'.encode(FORMAT))
-
-                    else:
-                        client.send('You do not have access to these commands'.encode(FORMAT))
-                except:
-                    print('We got an error fuck face, commands section')
-            else:
-                pass
+        
         except:
             nick_index = clients.index(client)
             del admins[nick_index]
@@ -212,6 +166,47 @@ def shutdown():
     nicknames = []    
     
     sys.exit(0)
+
+'''
+Ferny for the help_method I want you to print the list of commands available to the server
+In this program to print instead of using "print('')", you use the following:
+         
+         TO SEND TO ALL USERS:
+         broadcast(message.encode(FORMAT))
+         
+         TO SEND TO ONE USER:
+         client.send(message.encode(FORMAT))
+         
+The list of commands are the following:
+    /help
+    /kick
+    /ban
+    /mute
+    /startGame
+    /censorChat
+    
+An Example:
+
+The user would type:
+    /help
+    
+Then the following would print ONLY on his screen:
+
+    /help:  Show available commands
+    /kick:  kick a user
+    /ban:   Ban a user
+    /mute:  mute a user
+    /startGame: Start a vote for a speedtype game
+    /censorChat: Censor Profanity
+    For any more questions contact the owners of the repository
+
+You're gonna write your code under help_method underneath this comment,
+MAKE SURE TO DELETE pass
+
+Ferny if you have any questions let me know.  
+'''
+def help_method():
+    pass
 
 
 receive()
